@@ -1,32 +1,41 @@
 const express = require('express');
-const app = express();
-
-app.get('/', (req, res) => {
-  // Your code to intercept and modify the response goes here
-  res.send('Hello, World!');
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-
-
+const axios = require('axios');
 const cheerio = require('cheerio');
 
-// Inside your route handler
-const modifiedHtml = modifyHtml(responseFromDorarNet);
-res.send(modifiedHtml);
+const app = express();
+
+app.get('/', async (req, res) => {
+  try {
+    // Fetch HTML from dorar.net
+    const response = await axios.get('https://dorar.net/');
+    const responseFromDorarNet = response.data;
+
+    // Modify HTML
+    const modifiedHtml = modifyHtml(responseFromDorarNet);
+
+    // Send the modified HTML as the response
+    res.send(modifiedHtml);
+  } catch (error) {
+    console.error('Error fetching or modifying HTML:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 function modifyHtml(html) {
   const $ = cheerio.load(html);
   const switchButton = $('.switch_btn');
 
   if (switchButton.length > 0) {
-    switchButton.click(); // Simulate a click event
+    // Simulate a click event
+    switchButton.click();
   } else {
     console.log('Switch button not found');
   }
 
   return $.html();
 }
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
