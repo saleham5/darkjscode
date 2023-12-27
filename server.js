@@ -8,6 +8,11 @@ app.get('/', async (req, res) => {
   try {
     // Fetch HTML from dorar.net
     const response = await axios.get('https://dorar.net/');
+    
+    // Log the response to inspect its structure (optional)
+    console.log(response);
+
+    // Extract HTML content from the response
     const responseFromDorarNet = response.data;
 
     // Modify HTML
