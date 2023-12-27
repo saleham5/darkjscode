@@ -1,0 +1,17 @@
+{
+  "name": "my-node-server",
+  "version": "1.0.0",
+  "description": "Node.js server for modifying HTML",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
