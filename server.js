@@ -27,17 +27,28 @@ app.get('/', async (req, res) => {
 });
 
 function modifyHtml(html) {
-  const $ = cheerio.load(html);
-  const switchButton = $('.switch_btn');
+  try {
+    const $ = cheerio.load(html);
+    const switchButton = $('.switch_btn');
 
-  if (switchButton.length > 0) {
-    // Simulate a click event
-    switchButton.click();
-  } else {
-    console.log('Switch button not found');
+    if (switchButton.length > 0) {
+      // Check if the element has a click method before calling it
+      if (typeof switchButton.click === 'function') {
+        // Simulate a click event
+        switchButton.click();
+        console.log('Switch button clicked successfully.');
+      } else {
+        console.log('Switch button does not have a click method.');
+      }
+    } else {
+      console.log('Switch button not found');
+    }
+
+    return $.html();
+  } catch (error) {
+    console.error('Error modifying HTML:', error);
+    return html; // Return the original HTML in case of an error
   }
-
-  return $.html();
 }
 
 const port = process.env.PORT || 3000;
